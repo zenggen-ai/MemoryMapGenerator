@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:www.mouser.com)",
+      "WebFetch(domain:www.renesas.com)",
+      "Bash(python -c \"from elf_analyzer import ELFAnalyzer; print\\(''Import successful''\\)\")",
+      "Bash(python -c \"from excel_generator import ExcelReportGenerator; print\\(''Import successful''\\)\")",
+      "Bash(python -c \"from elf_analyzer import MemorySection; s = MemorySection\\(''test'', 0x1000, 0x100, ''ROM''\\); print\\(f''Start: 0x{s.address:08X}, End: 0x{s.end_address:08X}''\\)\")"
+    ]
+  }
+}

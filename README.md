@@ -1,0 +1,135 @@
+# GHS ELF内存分析工具
+
+一个用于分析GHS编译器生成的ELF文件，并生成ROM和RAM使用情况Excel统计表的图形化工具。
+
+## 功能特性
+
+- 📊 解析GHS编译器生成的ELF文件
+- 📈 自动分类内存段（ROM、RAM、Stack、Heap等）
+- 📑 生成详细的Excel统计报告
+- 🖥️ 友好的图形用户界面
+- 📦 支持自定义内存区域总容量配置
+- 🎯 快速评估项目ROM/RAM使用情况
+
+## 安装依赖
+
+### 方法1：使用pip安装
+
+```bash
+pip install -r requirements.txt
+```
+
+### 方法2：手动安装
+
+```bash
+pip install pyelftools>=0.29
+pip install openpyxl>=3.1.0
+```
+
+注意：tkinter通常随Python一起安装，如果没有，请根据你的操作系统安装：
+
+- **Windows**: 通常已包含
+- **Ubuntu/Debian**: `sudo apt-get install python3-tk`
+- **macOS**: 通常已包含
+
+## 使用方法
+
+### 启动GUI工具
+
+```bash
+python main.py
+```
+
+### 操作步骤
+
+1. **选择ELF文件**：点击"浏览"按钮选择GHS编译生成的ELF文件
+2. **指定输出路径**：选择Excel报告的保存位置（默认自动生成）
+3. **配置总容量**（可选）：
+   - 输入ROM总容量（KB）
+   - 输入RAM总容量（KB）
+   - 如果不输入，报告中将不显示使用率
+4. **开始分析**：点击"开始分析"按钮
+5. **查看报告**：分析完成后，Excel报告将自动保存
+
+## Excel报告内容
+
+生成的Excel文件包含以下工作表：
+
+### 1. 内存使用摘要
+- ROM（Flash/Code）使用情况
+- RAM（Data/BSS）使用情况
+- Stack和Heap使用情况
+- 使用率统计（如果配置了总容量）
+
+### 2. 详细段信息
+- 所有内存段的完整列表
+- 包含段名称、起始地址、大小和类型
+
+### 3. ROM详细信息
+- ROM相关段的详细分解
+- 包括.text、.rodata等代码和只读数据段
+
+### 4. RAM详细信息
+- RAM相关段的详细分解
+- 包括.data、.bss等已初始化和未初始化数据段
+
+## 内存段分类规则
+
+工具会自动将ELF文件中的段分类为：
+
+- **ROM**: 代码段和只读数据（.text, .rodata, .init等）
+- **DATA**: 已初始化数据段（.data, .sdata等）
+- **BSS**: 未初始化数据段（.bss, .sbss等）
+- **STACK**: 栈段
+- **HEAP**: 堆段
+- **CUSTOM**: 其他自定义段
+
+## 项目结构
+
+```
+MemoryMapTool/
+├── main.py              # GUI主程序
+├── elf_analyzer.py      # ELF文件解析模块
+├── excel_generator.py   # Excel报告生成模块
+├── requirements.txt     # 依赖包列表
+├── README.md           # 项目文档
+└── .gitignore          # Git忽略文件
+```
+
+## 系统要求
+
+- Python 3.7+
+- Windows/Linux/macOS
+
+## 常见问题
+
+### Q: 工具支持哪些ELF文件格式？
+A: 工具使用pyelftools库，支持标准的ELF格式文件，特别针对GHS编译器生成的ELF文件进行了优化。
+
+### Q: 如何获取ROM/RAM总容量？
+A: 可以从以下途径获取：
+- 查看芯片数据手册
+- 查看链接脚本（.ld或.dld文件）中的MEMORY定义
+- 如果不确定，可以留空，工具仍会显示实际使用量
+
+### Q: 分析失败怎么办？
+A: 请检查：
+- ELF文件是否完整且未损坏
+- 文件路径是否包含特殊字符
+- 是否有足够的磁盘空间保存Excel报告
+
+## 许可证
+
+本项目采用MIT许可证。
+
+## 贡献
+
+欢迎提交Issue和Pull Request！
+
+## 更新日志
+
+### v1.0.0 (2026-03-26)
+- 初始版本发布
+- 支持ELF文件解析
+- 支持Excel报告生成
+- 提供图形用户界面
